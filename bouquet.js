@@ -492,7 +492,7 @@
     // leave a strip of rows at the bottom for the message
     const textRows = Math.max(5, Math.round(rows * 0.15));
     // empty margin at the very bottom, so the bouquet and message both ride higher
-    const bottomPad = Math.round(rows * 0.07);
+    const bottomPad = Math.round(rows * 0.15);
     const sceneRows = rows - bottomPad - textRows;
     const sx = Math.min(cols / WORLD_W, (sceneRows * aspect) / WORLD_H) * 0.96;
     octx.setTransform(1, 0, 0, 1, 0, 0);
