@@ -491,7 +491,9 @@
     const aspect = cellH / cellW;
     // leave a strip of rows at the bottom for the message
     const textRows = Math.max(5, Math.round(rows * 0.15));
-    const sceneRows = rows - textRows;
+    // empty margin at the very bottom, so the bouquet and message both ride higher
+    const bottomPad = Math.round(rows * 0.07);
+    const sceneRows = rows - bottomPad - textRows;
     const sx = Math.min(cols / WORLD_W, (sceneRows * aspect) / WORLD_H) * 0.96;
     octx.setTransform(1, 0, 0, 1, 0, 0);
     octx.fillStyle = '#000';
@@ -530,7 +532,7 @@
         sctx.fillText(RAMP[idx], x * cellW, y * cellH);
       }
     }
-    drawMessage(textRows);
+    drawMessage(textRows, bottomPad);
   }
 
   // The message types itself out under the bouquet once the first lilies open,
@@ -558,7 +560,7 @@
     '!': glyph(0, ['..#..', '..#..', '..#..', '..#..', '..#..', '.....', '..#..']),
   };
 
-  function drawMessage(textRows) {
+  function drawMessage(textRows, bottomPad) {
     const count = MESSAGE.length;
     if (T < MSG_START) return;
     const W = cols * cellW;
@@ -567,7 +569,7 @@
     const ps = clamp(Math.floor(Math.min((W * 0.8) / totalCols, (stripH * 0.8) / FONT_ROWS)), 2, 10);
     const x0 = Math.round((W - totalCols * ps) / 2);
     // sit near the top of the strip so the text rides a bit higher
-    const y0 = Math.round((rows - textRows) * cellH + (stripH - FONT_ROWS * ps) * 0.2);
+    const y0 = Math.round((rows - bottomPad - textRows) * cellH + (stripH - FONT_ROWS * ps) * 0.3);
     const shown = Math.min(count, Math.floor((T - MSG_START) / MSG_STEP) + 1);
     for (let i = 0; i < shown; i++) {
       const g = PIXEL_FONT[MESSAGE[i]];
